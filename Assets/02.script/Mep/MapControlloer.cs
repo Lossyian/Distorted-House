@@ -1,0 +1,126 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class MapControlloer : MonoBehaviour
+{
+    [SerializeField] private List<GameObject> roomPrefabs;
+
+    [SerializeField] private float roomCheckradius = 1.5f;
+    [SerializeField] private LayerMask roomLayer;
+    [SerializeField] private int maxAttempts = 20;
+
+    private List<Room> PlacedRooms = new List<Room> ();
+    private List<Door> openDoors = new List<Door>();
+
+    void Start()
+    {
+        DrawingLobby();
+    }
+
+ 
+
+    public void DrawingLobby()
+    {   // 방 프레펩을 저장한 리스트가 비어있다면, 중단.
+        if (roomPrefabs.Count == 0) return;
+        //리스트 0 즉 맵의 로비를 회전 없이 생성하라
+        GameObject startDrawRoom = Instantiate(roomPrefabs[0],Vector2.zero,Quaternion.identity);
+        //생성된 로비의 스크립트를 꺼내어, StartRoom 변수에 저장.
+        Room startRoom = startDrawRoom.GetComponent<Room>();
+        //이미 배치된 로비가 담긴 StartRoom변수를 PlacedRooms 리스트에 담아 배치 전의 리스트에 들어가지 않도록 한다.
+        PlacedRooms.Add(startRoom);
+
+        // 1~9번 리스트에 저장된 방들의 리스트 복제 0번인 로비는 PlacedRooms에 이미 저장했으니 제외.
+        List<GameObject> remainingPrefabs = new List<GameObject>(roomPrefabs);
+        remainingPrefabs.RemoveAt(0);
+        // 로비의 문을 프레펩의 Room 스크립트 에있는 doors리스트에 추가..
+        openDoors.AddRange(startRoom.doors);
+
+        Debug.Log(" 로비 생성");
+
+        // 저장된 방들의 리스트가비어있고, 방에 있는 문도 없다면 중단.
+        while (remainingPrefabs.Count > 0 && openDoors.Count>0)
+        {
+            Debug.Log(" 방 생성 시도 와일문 진입.");
+            //리스트의 0번에 담긴 문을 connectForm에 담는다.
+            Door connectForm = openDoors[0];
+            //리스트에서 방금뺀 0번을 제거한다.
+            openDoors.RemoveAt(0);
+            //랜덤한 번호의 방을 리스트에서 가져와, 변수에 옮기고, 기존 리스트에선 삭제.
+            GameObject newRoomprefab = remainingPrefabs[Random.Range(0, remainingPrefabs.Count)];
+            remainingPrefabs.Remove(newRoomprefab);
+
+            //도킹룸 메서드로, 도킹을 시도한다.
+            bool success = TryDokingRoom(connectForm, newRoomprefab);
+            
+            //만약 실패한다면...
+            if (!success)
+            {
+                //다시 리스트로 되돌린다.
+                Debug.Log($"{newRoomprefab.name} 배치 실패. 다른 문으로 시도합니다.");
+                remainingPrefabs.Add(newRoomprefab);
+            }
+
+        }
+    }
+
+    bool TryDokingRoom(Door attachTo,GameObject roomPrefab)
+    {
+        // 최대 시도 횟수만큼 반복 및 반복할때마다 i의 수 1씩 증가.
+        for (int i = 0; i < maxAttempts; i++) 
+        {   //roomprefab안에 들어있는번호의 방을 생성
+            GameObject newRoomObj = Instantiate(roomPrefab);
+            //방의 스크립트 호출
+            Room newRoom = newRoomObj.GetComponent<Room>();
+            //Room 스크립트 안의 메서드를 호출해, 랜덤의 문을 지정
+            Door newDoor = newRoom.GetRandomDoor();
+
+            //랜덤하게 90도,180도,270도,360도 회전 시킨다.
+            newRoom.transform.rotation = Quaternion.Euler(0, 0, 90 * Random.Range(0, 4));
+
+            //기존 방문 위치만큼 새로만든방문을 이동시켜라. 방또한 그만큼 움직여라.
+            Vector3 offset = attachTo.transform.position - newDoor.transform.position;
+            newRoom.transform.position += offset;
+
+            //두 문의 각도가 같은지 검사.
+            float dotProduct = Vector2.Dot(attachTo.transform.up, newDoor.transform.up);
+            if (dotProduct > -0.99f)
+            {
+                Destroy(newRoomObj);
+                continue; 
+            }
+
+
+            // 다른 방의 콜라이더와 충돌하는지 검사
+            BoxCollider2D roomCollider = newRoom.GetComponent<BoxCollider2D>();
+            roomCollider.enabled = false;
+            Vector2 boxSize = roomCollider.size;
+            Vector2 boxCenter = (Vector2)newRoom.transform.position + roomCollider.offset;
+            float roomAngle = newRoom.transform.eulerAngles.z;
+
+            Collider2D overlap = Physics2D.OverlapBox(boxCenter, boxSize, roomAngle, roomLayer);
+
+            roomCollider.enabled = true;
+
+            if (overlap == null)
+            {
+                //성공 했다면,
+                attachTo.connectedDoor=newDoor;
+                newDoor.connectedDoor=attachTo;
+
+                PlacedRooms.Add(newRoom);
+                // 이 방의 나머지 문은 리스트에 추가.
+                foreach (var d in newRoom.doors)
+                    if (d != newDoor)
+                        openDoors.Add(d);
+
+                return true;
+            }
+            Destroy(newRoomObj);
+
+        }
+        return false;
+    }
+
+}
