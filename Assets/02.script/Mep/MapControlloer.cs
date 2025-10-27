@@ -7,16 +7,22 @@ public class MapControlloer : MonoBehaviour
 {
     [SerializeField] private List<GameObject> roomPrefabs;
 
-    [SerializeField] private float roomCheckradius = 1.5f;
+  
     [SerializeField] private LayerMask roomLayer;
     [SerializeField] private int maxAttempts = 20;
 
     private List<Room> PlacedRooms = new List<Room> ();
     private List<Door> openDoors = new List<Door>();
 
+
+    public List<string> itemNames;
+
+
     void Start()
     {
         DrawingLobby();
+        geneateMap();
+
     }
 
  
@@ -37,12 +43,12 @@ public class MapControlloer : MonoBehaviour
         // 로비의 문을 프레펩의 Room 스크립트 에있는 doors리스트에 추가..
         openDoors.AddRange(startRoom.doors);
 
-        Debug.Log(" 로비 생성");
+        Debug.Log(" 로비 생성 완료");
 
         // 저장된 방들의 리스트가비어있고, 방에 있는 문도 없다면 중단.
         while (remainingPrefabs.Count > 0 && openDoors.Count>0)
         {
-            Debug.Log(" 방 생성 시도 와일문 진입.");
+            
             //리스트의 0번에 담긴 문을 connectForm에 담는다.
             Door connectForm = openDoors[0];
             //리스트에서 방금뺀 0번을 제거한다.
@@ -58,7 +64,7 @@ public class MapControlloer : MonoBehaviour
             if (!success)
             {
                 //다시 리스트로 되돌린다.
-                Debug.Log($"{newRoomprefab.name} 배치 실패. 다른 문으로 시도합니다.");
+                Debug.Log($"{newRoomprefab.name} 의 배치 실패. 다른 문으로 시도합니다.");
                 remainingPrefabs.Add(newRoomprefab);
             }
 
@@ -67,6 +73,7 @@ public class MapControlloer : MonoBehaviour
 
     bool TryDokingRoom(Door attachTo,GameObject roomPrefab)
     {
+        Debug.Log($"{roomPrefab.name}의 도킹을 시도합니다. ");
         // 최대 시도 횟수만큼 반복 및 반복할때마다 i의 수 1씩 증가.
         for (int i = 0; i < maxAttempts; i++) 
         {   //roomprefab안에 들어있는번호의 방을 생성
@@ -93,6 +100,7 @@ public class MapControlloer : MonoBehaviour
 
 
             // 다른 방의 콜라이더와 충돌하는지 검사
+            Debug.Log(" 다른방과 겹치는지 검사합니다.");
             BoxCollider2D roomCollider = newRoom.GetComponent<BoxCollider2D>();
             roomCollider.enabled = false;
             Vector2 boxSize = roomCollider.size;
@@ -105,6 +113,7 @@ public class MapControlloer : MonoBehaviour
 
             if (overlap == null)
             {
+                Debug.Log("콜라이더 충돌 없음 방 설치 완료");
                 //성공 했다면,
                 attachTo.connectedDoor=newDoor;
                 newDoor.connectedDoor=attachTo;
@@ -121,6 +130,18 @@ public class MapControlloer : MonoBehaviour
 
         }
         return false;
+        
+        
+    }
+    public InvestigatePointController investigatePointController;
+    public void geneateMap()
+    {
+        // 조사포인트 컨트롤러에 방 리스트에 전달하라
+        investigatePointController.allRooms = new List<Room>(PlacedRooms);
+
+        // 조사포인트를 배치하라
+        investigatePointController.StartDistribution();
     }
 
+   
 }
