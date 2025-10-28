@@ -21,7 +21,7 @@ public class MapControlloer : MonoBehaviour
     void Start()
     {
         DrawingLobby();
-        geneateMap();
+        
 
     }
 
@@ -134,14 +134,22 @@ public class MapControlloer : MonoBehaviour
         
     }
     public InvestigatePointController investigatePointController;
-    public void geneateMap()
+    
+    private void OnEnable()
     {
-        // 조사포인트 컨트롤러에 방 리스트에 전달하라
-        investigatePointController.allRooms = new List<Room>(PlacedRooms);
+        ItemTableLoader.OnLoadCompleted += OnCSVLoaded;
+    }
+     
+    private void OnDisable()
+    {
+        ItemTableLoader.OnLoadCompleted -= OnCSVLoaded;
+    }
 
-        // 조사포인트를 배치하라
+    private void OnCSVLoaded()
+    {
+        investigatePointController.allRooms = new List<Room>(PlacedRooms);
         investigatePointController.StartDistribution();
     }
 
-   
+
 }

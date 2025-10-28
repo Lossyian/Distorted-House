@@ -253,6 +253,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inTheHend: 
+--- !u!1 &1140970754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1140970755}
+  - component: {fileID: 1140970756}
+  m_Layer: 0
+  m_Name: LoadItemListManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1140970755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140970754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1493951294}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1140970756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140970754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ce22e76549ce4b956bc01b14a2d38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1371855406
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +481,7 @@ Transform:
   m_Children:
   - {fileID: 1766503364}
   - {fileID: 1371855408}
+  - {fileID: 1140970755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1766503363
@@ -484,43 +529,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allRooms: []
-  itemNames:
-  - "\uC218\uC0C1\uD55C \uBD80\uC801"
-  - "\uB0A1\uC740 \uC18C\uD654\uAE30"
-  - "\uD314\uAC01\uD328"
-  - "\uB2E4\uC6B0\uC9D5 \uB9C9\uB300"
-  - "\uC704\uC790\uBCF4\uB4DC"
-  - "\uCCAD\uC9C4\uAE30"
-  - "\uBB34\uB2F9\uC758 \uBC29\uC6B8"
-  trapNames:
-  - "\uACC4\uC18D \uD574\uB9E4\uC77C\uAEBC\uC57C"
-  - "\uB124 \uB4A4\uC5D0 \uC788\uC5B4"
-  - "\uBB34\uB108\uC9C0\uB294 \uC120\uBC18"
-  - "\uC5F4\uB9AC\uC9C0 \uC54A\uB294 \uBB38"
-  - "\uADF8\uAC83\uC744 \uC6D0\uD574"
-  - "\uC808\uB9DD\uC758 \uC2DC\uAC04"
-  provisoNumNames:
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
-  - 6
-  - 7
-  - 8
-  - 9
-  provisoWeakNames:
-  - "\uC2ED\uC790\uAC00X"
-  - "\uB9D0\uB69DX"
-  - "\uAE30\uB984\uD1B5X"
-  specialNames:
-  - "\uC2ED\uC790\uAC00"
-  - "\uB9D0\uB69D"
-  - "\uAE30\uB984\uD1B5"
-  - "\uAE08\uACE0"
-  - "\uBC14\uB2E5\uBB38"
-  SelectedNum: []
-  selectedWeak: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

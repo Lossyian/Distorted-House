@@ -1,24 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class InvestigatePointController : MonoBehaviour
 {
-    public List<Room> allRooms;
-
-    [Header("아이템 모음")]
-    public List<string> itemNames;       
-    public List<string> trapNames;       
-    public List<string> provisoNumNames;  
-    public List<string> provisoWeakNames; 
-    public List<string> specialNames;
-
-
+    public List<Room> allRooms = new List<Room>();
     private List<InvestigatePoint> allPoints = new List<InvestigatePoint>();
 
-    //선택된 금고 비밀번호와, 약점단서.
-    public List<string> SelectedNum = new List<string>();
-    public string selectedWeak;
 
     public void StartDistribution()
     {
@@ -30,84 +21,88 @@ public class InvestigatePointController : MonoBehaviour
     private void collectAllPoints()
     {
         allPoints.Clear();
+        allRooms.AddRange(FindObjectsOfType<Room>());
         
         foreach (Room r in allRooms)
-        {
-            foreach (var p in r.points)
-                if (!allPoints.Contains(p)) 
-                    allPoints.Add(p);
-        }
-            
-
+            allPoints.AddRange(r.points);
+        
         Shuffle(allPoints);
     }
 
+
+
     private void SecretData()
     {
-        Shuffle(provisoNumNames);
-        Shuffle(provisoWeakNames);
+        var data = ItemTableLoader.loadedData;
 
-        SelectedNum = provisoNumNames.GetRange(0, 3);
-        selectedWeak = provisoWeakNames[0];
+        var provisos = data.FindAll(d => d.type != null && d.type.Trim().ToLower() == "proviso");
 
-        Debug.Log($"금고 비밀번호 : {string.Join("-", SelectedNum)}");
-        Debug.Log($"유령 약점 : {selectedWeak}");
+        var provisoNums = data.FindAll(d => !string.IsNullOrEmpty(d.type) && d.type.Trim().ToLower() == "provisonum");
+        var provisoWeaks = data.FindAll(d => !string.IsNullOrEmpty(d.type) && d.type.Trim().ToLower() == "provisoweak");
+
+        Debug.Log("loaded types: " + string.Join(",", data.Select(d => d.type)));
+
+
+        if (provisoNums.Count < 3 || provisoWeaks.Count < 1)
+        {
+            Debug.LogWarning(" 단서 데이터 부족! 시트 확인 필요!");
+            return;
+        }
+
+
+        GameManager.SafePassword = provisoNums.OrderBy(x => Random.value).Take(3).Select(d => d.name).ToList();
+
+        GameManager.GhostWeakness = provisoWeaks[Random.Range(0, provisoWeaks.Count)].name;
+
+        Debug.Log($" 숫자 단서 {provisoNums.Count}개, 약점 단서 {provisoWeaks.Count}개");
+
+
+        Debug.Log($" 금고 비밀번호: {string.Join("-", GameManager.SafePassword)}");
+        Debug.Log($" 약점 단서: {GameManager.GhostWeakness}");
     }
 
     private void DispositionPoints()
     {
+        var data = ItemTableLoader.loadedData;
+
+        // 정답이 될 단서들 제외.
+        var provisoNums = data.FindAll(d => d.type.ToLower() == "provisonum").Where(d => !GameManager.SafePassword.Contains(d.name)).ToList();
+        var provisoWeaks = data.FindAll(d => d.type.ToLower() == "provisoweak").Where(d => d.name != GameManager.GhostWeakness).ToList();
+
+        var provisos = new List<ItemData>();
+        provisos.AddRange(provisoNums);
+        provisos.AddRange(provisoWeaks);
+
+        var items = data.FindAll(d => d.type.ToLower() == "item");
+        var traps = data.FindAll(d => d.type.ToLower() == "trap");
+       
+        var special = data.FindAll(d => d.type.ToLower() == "special");
+
         int index = 0;
+
+        void Assign (List<ItemData> list, InvestigateType type)
+        {
+            for (int i = 0; i < list.Count && index < allPoints.Count; i++)
+            {
+                allPoints[index].type = type;
+                allPoints[index].dataName = list[i].name;
+                index++;
+            }
+
+        }
+        Assign(items, InvestigateType.item);
         //아이템
-        for (int i = 0; i < itemNames.Count; i++)
-        {
-
-            allPoints[index].type = InvestigateType.item;
-            allPoints[index].dataName = itemNames[i];
-            index++;
-        }
+        Assign(traps, InvestigateType.Trap);
         //함정
-        for (int i = 0; i<6; i ++)
-        {
-            allPoints[index].type = InvestigateType.Trap;
-            allPoints[index].dataName = trapNames[Random.Range(0, trapNames.Count)];
-            index++;
-        }
+        Assign(provisos, InvestigateType.proviso);
+        //단서
+        Assign(special, InvestigateType.special);
+        //특수
 
-        //단서들 세팅
-        List<string> RemainingNum = new List<string>(provisoNumNames);
-        RemainingNum.RemoveAll(x => SelectedNum.Contains(x));
+        
 
-        List<string> RemainingWeek = new List<string>(provisoWeakNames);
-        RemainingWeek.Remove(selectedWeak);
-
-        List<string> allRemainings = new List<string>();
-        allRemainings.AddRange(RemainingNum.GetRange(0, Mathf.Min(6, RemainingNum.Count)));
-        allRemainings.AddRange(RemainingWeek.GetRange(0, Mathf.Min(2, RemainingWeek.Count)));
-
-        Shuffle(allRemainings);
-
-        foreach (string clue in allRemainings)
-        {
-            allPoints[index].type = InvestigateType.proviso;
-            allPoints[index].dataName = clue;
-            index++;
-        }
-
-        //특수 세팅
-        for (int i = 0; i<specialNames.Count; i ++)
-        {
-            allPoints[index].type = InvestigateType.special;
-            allPoints[index].dataName = specialNames[i];
-            index++;
-        }
-
-        //남은곳 비어있는곳으로 전부 세팅
-
-        for(int i = index; i<allPoints.Count; i++)
-        {
-            allPoints[i].type = InvestigateType.Empty;
-            allPoints[i].dataName = "";
-        }
+        Debug.Log($"배치 완료: items={items.Count}, traps={traps.Count}, special={special.Count}, provisos={provisos.Count}");
+    
     }
 
     private void Shuffle<T>(List<T> list)

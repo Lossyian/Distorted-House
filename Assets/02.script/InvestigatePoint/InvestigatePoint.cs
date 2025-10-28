@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,10 +22,27 @@ public class InvestigatePoint : MonoBehaviour
 
     public void Interact()
     {
+
+        var inventory = FindObjectOfType<Inventory>();
+
         switch(type)
         {
-            case InvestigateType.Empty:
 
+            case InvestigateType.Empty:
+                if (!inventory.hasItem)
+                {
+                    inventory.Pickup(dataName);
+                    type = InvestigateType.Empty;
+                    dataName = "";
+
+                    //아이템을 가져감으로, 빈공간이 된다.
+                }
+                else
+                {  //가진 아이템을 내려놓고 새 아이템을 가져간다.
+                    string drops = inventory.DropItem();
+                    inventory.Pickup(dataName);
+                    dataName = drops;
+                }
                 break;
             case InvestigateType.item:
 
@@ -41,29 +59,7 @@ public class InvestigatePoint : MonoBehaviour
         }
     }
 
-    public void HandItemChainge(Inventory inven)
-    {
-        if (!inven.hasItem)
-        {
-            inven.Pickup(dataName);
-            type = InvestigateType.Empty;
-            dataName = "";
-
-            //아이템을 가져감으로, 빈공간이 된다.
-        }
-
-        else
-        {
-            string dropsItem = inven.DropItem();
-            //손에든걸 내려놓고 아이템 획득
-
-            string temp = dataName;
-            dataName = dropsItem;
-            inven.Pickup(temp);
-
-
-        }
-    }
+   
 
 
 }
