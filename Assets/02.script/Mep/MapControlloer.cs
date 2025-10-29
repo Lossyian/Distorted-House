@@ -90,7 +90,7 @@ public class MapControlloer : MonoBehaviour
             Vector3 offset = attachTo.transform.position - newDoor.transform.position;
             newRoom.transform.position += offset;
 
-            //두 문의 각도가 같은지 검사.
+            //두 문의 각도가 같게!
             float dotProduct = Vector2.Dot(attachTo.transform.up, newDoor.transform.up);
             if (dotProduct > -0.99f)
             {

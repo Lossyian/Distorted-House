@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,53 +14,135 @@ public enum InvestigateType
     special //격퇴아이템,금고,바닥문
 
 }
-
+[RequireComponent(typeof(SpriteRenderer),typeof(Collider2D))]
 public class InvestigatePoint : MonoBehaviour
 {
     public InvestigateType type;
     public string dataName;
-   
+
+    private SpriteRenderer sprite;
+    private Color baseColor;
+
+    [Header("투명도 설정")]
+    [Range(0f, 1f)] public float hiddenAlpha = 0f;
+    [Range(0f, 1f)] public float visibleAlpha = 1f;
+    [SerializeField] float fadeSpeed = 5f;
+
+    private float targetAlpha;
+
+    private void Awake()
+    {
+        sprite = GetComponent<SpriteRenderer>();
+        baseColor = sprite.color;
+        targetAlpha = hiddenAlpha;
+        SetAlpha(hiddenAlpha);
+    }
+
+    private void Update()
+    {
+        Color c = sprite.color;
+        c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime*fadeSpeed);
+        sprite.color = c;
+    }
+
+    public void SetVisible(bool visible)
+    {
+        targetAlpha = visible ? visibleAlpha : hiddenAlpha;
+    }
+
+    public void SetVisibleByWave(float distance, float waveRadius)
+    {
+        if(distance <= waveRadius)
+        {
+            float t = Mathf.InverseLerp(waveRadius - 1F, waveRadius, distance);
+            targetAlpha = Mathf.Lerp(visibleAlpha, hiddenAlpha, t);
+        }
+        else
+        {
+            targetAlpha = hiddenAlpha;
+        }
+    }
+
+    private void SetAlpha(float a)
+    {
+        Color c = baseColor;
+        c.a = a;
+        sprite.color = c;
+    }
 
     public void Interact()
     {
 
         var inventory = FindObjectOfType<Inventory>();
 
-        switch(type)
+
+        switch (type)
         {
 
             case InvestigateType.Empty:
-                if (!inventory.hasItem)
-                {
-                    inventory.Pickup(dataName);
-                    type = InvestigateType.Empty;
-                    dataName = "";
-
-                    //아이템을 가져감으로, 빈공간이 된다.
-                }
-                else
-                {  //가진 아이템을 내려놓고 새 아이템을 가져간다.
-                    string drops = inventory.DropItem();
-                    inventory.Pickup(dataName);
-                    dataName = drops;
-                }
+                TryHide();
                 break;
             case InvestigateType.item:
-
+                HandleItemInteraction(inventory);
                 break;
             case InvestigateType.Trap:
-
+                TrapTrigger(); 
                 break;
             case InvestigateType.proviso:
-
+                catchProviso();
                 break;
             case InvestigateType.special:
-
+                FindSpecial();
                 break;
         }
     }
 
-   
+    private void HandleItemInteraction(Inventory inventory)
+    {
+        if (!inventory.hasItem)
+        {
+            inventory.Pickup(dataName);
+            ConvertToEmpty();
+        }
+        else
+        {
+            string dropped = inventory.DropItem();
+            inventory.Pickup(dataName);
+            dataName = dropped;
+        }
+    }
 
 
+    private void ConvertToEmpty()
+    {
+        type = InvestigateType.Empty;
+        dataName = "";
+
+    }
+
+
+    private void TrapTrigger()
+    {
+        Debug.Log(" 함정 발동! ");
+        //나중에 함정에 대한 메서드 작성.
+    }
+    private void catchProviso()
+    {
+        Debug.Log($"단서 발견({dataName}");
+        //나중에 단서에 대한 메서드 작성.
+    }
+
+    private void FindSpecial()
+    {
+        Debug.Log($"특수 아이템 발견:{dataName} ");
+        //나중에 특수아이템에 대한 메서드 작성.
+    }
+
+    private void TryHide()
+    {
+        Debug.Log("빈공간에 숨습니다");
+        //나중에 빈곤간에 숨는 메서드 작성.
+    }
 }
+
+

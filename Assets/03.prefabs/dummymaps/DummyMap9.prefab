@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 1961217593284016659}
   - component: {fileID: 884210251877469044}
   - component: {fileID: 6351299715504532281}
-  m_Layer: 0
+  - component: {fileID: 2630046314826210622}
+  m_Layer: 7
   m_Name: InvestigatePoint  (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,6 +100,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
+--- !u!58 &2630046314826210622
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 203541149031600342}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.0000000037252903}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &736866713695428956
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +247,8 @@ GameObject:
   - component: {fileID: 4118988298215640899}
   - component: {fileID: 8600239171887386289}
   - component: {fileID: 6365977074899409710}
-  m_Layer: 0
+  - component: {fileID: 469903843699330933}
+  m_Layer: 7
   m_Name: 'InvestigatePoint '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,6 +336,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
+--- !u!58 &469903843699330933
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862378382955917877}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.000000029802322, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &1868980436834175276
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +483,8 @@ GameObject:
   - component: {fileID: 1966955966528529788}
   - component: {fileID: 6270070296038969819}
   - component: {fileID: 2441326296719509481}
-  m_Layer: 0
+  - component: {fileID: 4444424346413579459}
+  m_Layer: 7
   m_Name: InvestigatePoint  (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -493,6 +572,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
+--- !u!58 &4444424346413579459
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091870860484720120}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000009536743, y: 0.00000023841858}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &3699343053247809723
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,7 +621,8 @@ GameObject:
   - component: {fileID: 7418097751354350294}
   - component: {fileID: 2625206714823683967}
   - component: {fileID: 8274847856574591255}
-  m_Layer: 0
+  - component: {fileID: 418812869966966717}
+  m_Layer: 7
   m_Name: InvestigatePoint  (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,6 +710,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
+--- !u!58 &418812869966966717
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699343053247809723}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.00000047683716}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &4022809572851902261
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,7 +759,8 @@ GameObject:
   - component: {fileID: 164216645440844028}
   - component: {fileID: 7625129802196544615}
   - component: {fileID: 6313905810237665175}
-  m_Layer: 0
+  - component: {fileID: 9176776309472885847}
+  m_Layer: 7
   m_Name: InvestigatePoint  (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,6 +848,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
+--- !u!58 &9176776309472885847
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022809572851902261}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00000047683716, y: -0.00000047683716}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &4463079045728609471
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,7 +1152,8 @@ GameObject:
   - component: {fileID: 9029886530097351277}
   - component: {fileID: 4455629373119018134}
   - component: {fileID: 4496986827507192678}
-  m_Layer: 0
+  - component: {fileID: 1699473895954854432}
+  m_Layer: 7
   m_Name: InvestigatePoint  (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1045,3 +1241,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
+--- !u!58 &1699473895954854432
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8287838528581053815}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.0000009536743}
+  serializedVersion: 2
+  m_Radius: 0.4999999

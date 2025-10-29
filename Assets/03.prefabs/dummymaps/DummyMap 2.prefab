@@ -166,7 +166,8 @@ GameObject:
   - component: {fileID: 1507766691211554097}
   - component: {fileID: 3914398764443911887}
   - component: {fileID: 3870594417195485949}
-  m_Layer: 0
+  - component: {fileID: 8360096331501159262}
+  m_Layer: 7
   m_Name: InvestigatePoint  (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,6 +255,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+--- !u!58 &8360096331501159262
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707434299434848077}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0000009536743, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &2018446958848012488
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +301,8 @@ GameObject:
   - component: {fileID: 5271330573744420687}
   - component: {fileID: 7930550180831385702}
   - component: {fileID: 1483176166159526073}
-  m_Layer: 0
+  - component: {fileID: 8553650394384667489}
+  m_Layer: 7
   m_Name: InvestigatePoint  (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,6 +390,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+--- !u!58 &8553650394384667489
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2018446958848012488}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000009536743, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &2791070421398733569
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +436,8 @@ GameObject:
   - component: {fileID: 1262173895613466297}
   - component: {fileID: 8967331157949059817}
   - component: {fileID: 1574109181014119908}
-  m_Layer: 0
+  - component: {fileID: 2763240897434918157}
+  m_Layer: 7
   m_Name: InvestigatePoint  (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,6 +525,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+--- !u!58 &2763240897434918157
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2791070421398733569}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.00000023841858, y: 0.000000059604645}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &7323566510594372555
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +669,8 @@ GameObject:
   - component: {fileID: 8661149963904158773}
   - component: {fileID: 8245847294785736275}
   - component: {fileID: 4707852109395298233}
-  m_Layer: 0
+  - component: {fileID: 7247200949873718178}
+  m_Layer: 7
   m_Name: InvestigatePoint  (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -649,6 +758,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+--- !u!58 &7247200949873718178
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7804697397515199440}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00000047683716, y: -0.00000011920929}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &8196508987293951961
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +804,8 @@ GameObject:
   - component: {fileID: 3604241722482374021}
   - component: {fileID: 3336996888978424770}
   - component: {fileID: 919975455591294084}
-  m_Layer: 0
+  - component: {fileID: 4010550941186801112}
+  m_Layer: 7
   m_Name: InvestigatePoint  (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,6 +893,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+--- !u!58 &4010550941186801112
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8196508987293951961}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000009536743, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.4999999
 --- !u!1 &8353666694489591195
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,7 +1037,8 @@ GameObject:
   - component: {fileID: 77784899090446585}
   - component: {fileID: 2349583461691571190}
   - component: {fileID: 6887698989204200048}
-  m_Layer: 0
+  - component: {fileID: 4172598917315677724}
+  m_Layer: 7
   m_Name: 'InvestigatePoint '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,3 +1126,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+--- !u!58 &4172598917315677724
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8392860599812571095}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.00000047683716, y: -0.0000009536743}
+  serializedVersion: 2
+  m_Radius: 0.4999999
