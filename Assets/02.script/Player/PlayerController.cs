@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -45,11 +46,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("FÅ°´Ù¿ê");
             TryInteract();
+            GetComponent<NoiseEmitter>()?.OnInvestigate();
         }
 
         if(Input.GetKeyDown(Scankey)&& Time.time >= nextScanTime && !isScanning)
         {
             StartCoroutine(PerformScanWave());
+            GetComponent<NoiseEmitter>()?.OnScan();
         }
     }
 
@@ -60,8 +63,8 @@ public class PlayerController : MonoBehaviour
     
     void PlayerMove()
     {
-        Vector2 Velo = new Vector2(hor * moveSpeed, ver * moveSpeed);
-        rigid.velocity = Vector2.Lerp(rigid.velocity, Velo, Time.deltaTime * moveSpeed);
+        Vector2 Velo = new Vector2(hor , ver).normalized;
+        rigid.velocity = Vector2.Lerp(rigid.velocity, Velo* moveSpeed, Time.deltaTime * moveSpeed);
     }
     private void TryInteract()
     {
