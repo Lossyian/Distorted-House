@@ -167,9 +167,10 @@ GameObject:
   - component: {fileID: 423325986}
   - component: {fileID: 423325987}
   - component: {fileID: 423325988}
-  m_Layer: 0
+  - component: {fileID: 423325989}
+  m_Layer: 8
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -294,7 +295,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &423325988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,6 +310,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   investigateNoise: 15
   scanNoise: 10
+--- !u!70 &423325989
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423325983}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.0000001, y: 2.0000002}
+  m_Direction: 0
 --- !u!1 &774525527
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,8 +565,8 @@ MonoBehaviour:
   - {fileID: 4111785666461317516, guid: bd51ffbe7ad610d42ac073fd7601cbb4, type: 3}
   - {fileID: 4235614224004717790, guid: 187aaf2cf4e1cd44595c8246bef2f6ed, type: 3}
   - {fileID: 8287495544658683076, guid: f81b46829f62d1245a0d5e3764144a9b, type: 3}
-  - {fileID: 7845931223443851436, guid: 9ca1beee30f003e4eb9ee67b4418a7c1, type: 3}
-  - {fileID: 3737306704923008649, guid: 9315e5a8ae0a8ef4d8dd9bc62f676057, type: 3}
+  - {fileID: 679360238363859359, guid: b2c13f613afce724f8da573d6244cfc3, type: 3}
+  - {fileID: 679360238363859359, guid: 4b8b81757e5674b40bf5b0ab4ddc4ec3, type: 3}
   - {fileID: 1471650970547688744, guid: 2b0bfbd910e987749b8e995a630fc07f, type: 3}
   - {fileID: 4463079045728609471, guid: 86730f865f9a8fe41a7205f987bb3962, type: 3}
   roomLayer:

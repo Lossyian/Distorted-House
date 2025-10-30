@@ -115,8 +115,8 @@ public class MapControlloer : MonoBehaviour
             {
                 Debug.Log("콜라이더 충돌 없음 방 설치 완료");
                 //성공 했다면,
-                attachTo.connectedDoor=newDoor;
-                newDoor.connectedDoor=attachTo;
+                attachTo.ConnectDoor(newDoor);
+                
 
                 PlacedRooms.Add(newRoom);
                 // 이 방의 나머지 문은 리스트에 추가.
