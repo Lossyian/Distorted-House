@@ -100,6 +100,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
 --- !u!58 &919593869340883138
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -163,7 +166,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
   m_LocalPosition: {x: 0, y: -0.5078471, z: 0}
-  m_LocalScale: {x: 0.015694115, y: 0.07031945, z: 0.015694115}
+  m_LocalScale: {x: 0.015694115, y: 0.1547028, z: 0.015694115}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5490125642790963264}
@@ -333,6 +336,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
 --- !u!58 &5362687881768147942
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -468,6 +474,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
 --- !u!58 &9026832193911379134
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -760,6 +769,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
 --- !u!58 &5057177838424164350
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -823,7 +835,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.5078471, z: 0}
-  m_LocalScale: {x: 0.015694115, y: 0.07031945, z: 0.015694115}
+  m_LocalScale: {x: 0.015694115, y: 0.1547028, z: 0.015694115}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5490125642790963264}
@@ -993,6 +1005,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
 --- !u!58 &7970085211949366175
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1056,7 +1071,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.5057804, y: 0, z: 0}
-  m_LocalScale: {x: 0.015694115, y: 0.07031945, z: 0.015694115}
+  m_LocalScale: {x: 0.015694115, y: 0.1547028, z: 0.015694115}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5490125642790963264}
@@ -1226,6 +1241,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   dataName: 
+  hiddenAlpha: 0
+  visibleAlpha: 1
+  fadeSpeed: 5
 --- !u!58 &3327241385297344454
 CircleCollider2D:
   m_ObjectHideFlags: 0
