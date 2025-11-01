@@ -124,7 +124,7 @@ public class InvestigatePoint : MonoBehaviour
     private void TrapTrigger()
     {
         Debug.Log(" 함정 발동! ");
-        //나중에 함정에 대한 메서드 작성.
+        trapManager.Instance.activeateTrap(dataName);
     }
     private void catchProviso()
     {

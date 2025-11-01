@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,12 +12,15 @@ public class MapControlloer : MonoBehaviour
     [SerializeField] private LayerMask roomLayer;
     [SerializeField] private int maxAttempts = 20;
 
+    [SerializeField] private Room spawnRoomPrefab;
+
     private List<Room> PlacedRooms = new List<Room> ();
     private List<Door> openDoors = new List<Door>();
 
+    public Transform reSpawn;
 
     public List<string> itemNames;
-
+    public InvestigatePointController investigatePointController;
 
     void Start()
     {
@@ -133,8 +137,105 @@ public class MapControlloer : MonoBehaviour
         
         
     }
-    public InvestigatePointController investigatePointController;
-    
+
+
+
+    public void shuffleRoom()
+    {
+        Debug.Log("맵 재생성 + 단서/아이템/함정/특수 유지");
+
+        //  기존 조사포인트 데이터 저장
+        List<InvestigatePointData> savedPoints = new List<InvestigatePointData>();
+        foreach (Room room in PlacedRooms)
+        {
+            foreach (InvestigatePoint p in room.points)
+            {
+                if (p.type != InvestigateType.Empty)
+                    savedPoints.Add(new InvestigatePointData(p.type, p.dataName));
+            }
+        }
+
+        // 기존 맵 삭제
+        foreach (Room room in PlacedRooms)
+            Destroy(room.gameObject);
+        PlacedRooms.Clear();
+        openDoors.Clear();
+
+        //  맵 재생성
+        DrawingLobby();
+
+        //  새 조사포인트 수집
+        List<InvestigatePoint> newPoints = PlacedRooms.SelectMany(r => r.points).ToList();
+
+        //  기존 데이터 섞어서 새 포인트에 할당
+        Shuffle(savedPoints);
+        Shuffle(newPoints);
+
+        
+        for (int i = 0; i < newPoints.Count; i++)
+        {
+            if (i < savedPoints.Count)
+            {
+                newPoints[i].type = savedPoints[i].type;
+                newPoints[i].dataName = savedPoints[i].dataName;
+            }
+            else
+            {
+                newPoints[i].type = InvestigateType.Empty;
+                newPoints[i].dataName = "";
+            }
+        }
+
+        //  조사포인트 컨트롤러 갱신
+        investigatePointController.allRooms = new List<Room>(PlacedRooms);
+        investigatePointController.collectAllPoints();
+
+        //  플레이어 로비 ReSpawn
+        var player = FindObjectOfType<PlayerController>();
+        if (player != null && spawnRoomPrefab != null)
+        {
+            Room spawnRoom = PlacedRooms.Find(r => r.name.Contains(spawnRoomPrefab.name));
+            if (spawnRoom != null)
+            {
+                Transform spawnPoint = spawnRoom.transform.Find("ReSpawn");
+                if (spawnPoint != null)
+                    player.transform.position = spawnPoint.position;
+                else
+                    Debug.LogWarning("리스폰 포인트 없음");
+            }
+        }
+
+        //  문 연결 재도킹
+        List<Door> allDoors = new List<Door>();
+        foreach (Room room in PlacedRooms)
+            allDoors.AddRange(room.doors);
+
+        while (allDoors.Count > 0)
+        {
+            Door connectDoor = allDoors[0];
+            allDoors.RemoveAt(0);
+
+            Room targetRoom = PlacedRooms[Random.Range(0, PlacedRooms.Count)];
+            Door targetDoor = targetRoom.GetRandomDoor();
+
+            if (targetDoor != connectDoor && connectDoor.connectedDoor == null && targetDoor.connectedDoor == null)
+            {
+                connectDoor.ConnectDoor(targetDoor);
+            }
+        }
+    }
+
+
+    private void Shuffle<T>(List<T> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            int rand = Random.Range(i, list.Count);
+            (list[i], list[rand]) = (list[rand], list[i]);
+        }
+    }
+
+
     private void OnEnable()
     {
         ItemTableLoader.OnLoadCompleted += OnCSVLoaded;
@@ -152,4 +253,14 @@ public class MapControlloer : MonoBehaviour
     }
 
 
+}
+public class InvestigatePointData
+{
+    public InvestigateType type;
+    public string dataName;
+    public InvestigatePointData(InvestigateType t, string name)
+    {
+        type = t;
+        dataName = name;
+    }
 }

@@ -342,9 +342,53 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.0000001, y: 2.0000002}
+  m_Offset: {x: 0, y: -0.5}
+  m_Size: {x: 1.0000001, y: 1}
   m_Direction: 0
+--- !u!1 &489436889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 489436890}
+  - component: {fileID: 489436891}
+  m_Layer: 0
+  m_Name: TrapManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &489436890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489436889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1493951294}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &489436891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489436889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0c5aba5d45ebc4dacc2c98cf3a6a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &774525527
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +617,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   maxAttempts: 20
+  spawnRoomPrefab: {fileID: 6258204363259345251, guid: 96cebfb295065794698958188cb4aeda, type: 3}
+  reSpawn: {fileID: 3205290362318923417, guid: 96cebfb295065794698958188cb4aeda, type: 3}
   itemNames: []
   investigatePointController: {fileID: 1766503365}
 --- !u!4 &1371855408
@@ -747,6 +793,7 @@ Transform:
   - {fileID: 1140970755}
   - {fileID: 774525528}
   - {fileID: 1093910534}
+  - {fileID: 489436890}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1709564949
@@ -894,6 +941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allRooms: []
+  allPoints: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

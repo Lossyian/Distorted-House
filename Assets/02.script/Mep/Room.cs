@@ -7,13 +7,41 @@ public class Room : MonoBehaviour
 {
     public List<Door> doors;
     public List<InvestigatePoint> points = new List<InvestigatePoint>();
+   
 
     private void Awake()
     {
         points.AddRange(GetComponentsInChildren<InvestigatePoint>());
     }
-    public Door GetRandomDoor()
+
+    
+
+    public Door GetRandomDoor(Door ex = null)
     {    // 룸을 상속받은 자식오브젝트 수 중 랜덤으로 하나 선정)
-        return doors[Random.Range(0, doors.Count)];
+        List<Door> available = new List<Door>(doors);
+        if (ex != null)
+        {
+            available.Remove(ex);
+        }
+        if (available.Count == 0)
+        {
+            return null;
+        }
+        return available[Random.Range(0, available.Count)];
     }
+
+    public void LockrandomDoor()
+    {
+        if (doors == null || doors.Count == 0) return;
+
+        Door target = doors[Random.Range(0, doors.Count)];
+        Collider2D col = target.GetComponent<Collider2D>();
+        if (col != null )
+        {
+            col.enabled = false;
+            Debug.Log("문이 잠겼다요!");
+        }
+    }
+
+
 }
