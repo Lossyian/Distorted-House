@@ -37,8 +37,8 @@ public class trapManager : MonoBehaviour
     {
         if(GameManager.hasCharm && inventory != null)
         {
-            Debug.Log("부적이 지켜줬다요!");
             inventory.ConsumeItem("수상한 부적");
+            GameManager.hasCharm = false;
             return;
         }
 
@@ -86,6 +86,7 @@ public class trapManager : MonoBehaviour
         if(player != null)
         {
             Debug.Log("죽었다요..");
+            GameManager.Instance.OnPlayerCaught();
             //나중에 게임매니저에서 처리.
         }
     }

@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(interactKey))
         {
-            Debug.Log("F키다욧");
+            
             TryInteract();
             GetComponent<NoiseEmitter>()?.OnInvestigate();
         }
@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
 
         if (hit != null)
         {
-            Debug.Log("내안에 들어왔다요");
+            Debug.Log("내안에 있다요");
             InvestigatePoint point = hit.GetComponent<InvestigatePoint>();
             if (point != null)
             {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class GhostManager : MonoBehaviour
@@ -11,50 +12,71 @@ public class GhostManager : MonoBehaviour
     [SerializeField] float huntDuration = 20f;
 
     private GameObject currentGhost;
+    private Coroutine huntRoutine;
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) Destroy(gameObject);
-        else Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
     void Start()
     {
-        NoiseSystem.Instance.HuntTriggered += OnHuntStart;
+        if (NoiseSystem.Instance != null)
+        {
+            NoiseSystem.Instance.HuntTriggered += OnHuntStart;
+        }
     }
 
     private void OnDestroy()
     {
         if (NoiseSystem.Instance != null)
+        { 
             NoiseSystem.Instance.HuntTriggered -= OnHuntStart;
+        }
     }
 
     private void OnHuntStart()
     {
-        Debug.Log("헌팅 타임 시작!");
-        StartCoroutine(HuntCoroutine());
+        Debug.Log("헌팅 타임이다요");
+        StartHunt();
+
+        //나중에 사운드나 UI를 작성할때 가독성을 위해서 거쳐가도록 작성.
     }
+
+    public void StartHunt()
+    {
+        if (huntRoutine != null)
+        {
+            StopCoroutine(huntRoutine);
+        }
+        huntRoutine = StartCoroutine(HuntCoroutine());
+    }
+
     private IEnumerator HuntCoroutine()
     {
         currentGhost = Instantiate(ghostPreFab, spawnPoint.position, Quaternion.identity);
         yield return new WaitForSeconds(huntDuration);
-
-        if (currentGhost != null) Destroy(currentGhost);
-
-        Debug.Log("[ghostManager]헌팅 종료.");
-        NoiseSystem.Instance.currentNoise = 0;
+        ForceEndHunt();
     }
 
-    public void OnplayerCaught()
+    public void ForceEndHunt()
     {
-        Inventory inv = FindObjectOfType<Inventory>();
-        if (GameManager.hasExtinguisher && inv != null)
-        {
-            Debug.Log("소화기를 뿌리니 유령이 달아났다요.");
-            inv.ConsumeItem("낡은소화기");
+        if (currentGhost != null)
+            Destroy(currentGhost);
 
-            if (currentGhost != null)
-                Destroy(currentGhost);
-            return;
-        }
+        currentGhost = null;
+
+        if (GameManager.Instance != null)
+            GameManager.Instance.OnHuntEnd();
+
+        if (NoiseSystem.Instance != null)
+            NoiseSystem.Instance.currentNoise = 0;
     }
+   
 }

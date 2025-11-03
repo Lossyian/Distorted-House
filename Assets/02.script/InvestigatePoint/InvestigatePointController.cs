@@ -51,7 +51,7 @@ public class InvestigatePointController : MonoBehaviour
 
         if (provisoNums.Count < 3 || provisoWeaks.Count < 1)
         {
-            Debug.LogWarning(" 단서 데이터 부족! 시트 확인 필요!");
+            Debug.LogWarning(" 단서 데이터가 모자라다요!");
             return;
         }
 
@@ -84,7 +84,7 @@ public class InvestigatePointController : MonoBehaviour
         var data = ItemTableLoader.loadedData;
         if (data == null || data.Count == 0)
         {
-            Debug.LogError(" ItemTableLoader 데이터가 비어있습니다!");
+            Debug.LogError(" ItemTableLoader 데이터가 비었다요!");
             return;
         }
 
@@ -132,7 +132,7 @@ public class InvestigatePointController : MonoBehaviour
         }
 
         //  7. 로그 출력
-        Debug.Log($" 조사포인트 배치 완료: 총 {assignCount}/{allPoints.Count} 사용됨");
+        Debug.Log($" 조사포인트 배치 완료다요: 총 {assignCount}/{allPoints.Count} 사용했다요");
         Debug.Log($"(item={items.Count}, trap={traps.Count}, proviso={provisos.Count}, special={special.Count})");
     }
 

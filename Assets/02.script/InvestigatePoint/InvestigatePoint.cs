@@ -123,7 +123,7 @@ public class InvestigatePoint : MonoBehaviour
 
     private void TrapTrigger()
     {
-        Debug.Log(" 함정 발동! ");
+        Debug.Log(" 함정 발동이다요! ");
         trapManager.Instance.activeateTrap(dataName);
     }
     private void catchProviso()
@@ -140,7 +140,7 @@ public class InvestigatePoint : MonoBehaviour
 
     private void TryHide()
     {
-        Debug.Log("빈공간에 숨습니다");
+        Debug.Log("빈공간에 숨는다요");
         //나중에 빈곤간에 숨는 메서드 작성.
     }
 }

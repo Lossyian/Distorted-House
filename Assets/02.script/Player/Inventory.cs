@@ -6,9 +6,27 @@ public class Inventory : MonoBehaviour
 {
     public string inTheHend;
     public bool hasItem => !string.IsNullOrEmpty(inTheHend);
+    private ItemMnanger itemMnanger;
+    private void Start()
+    {
+        itemMnanger = FindObjectOfType<ItemMnanger>();
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TryUseCurrentItem();
+        }
+    }
 
     public void Pickup(string itemName)
     {
+        if (hasItem)
+        {
+            Debug.Log("들고있는 아이템과 바꾼다요!");
+            DropItem();
+
+        }
         inTheHend = itemName;
         Debug.Log($" 인벤토리에 '{itemName}' 추가됨");
 
@@ -19,28 +37,24 @@ public class Inventory : MonoBehaviour
     {
         string drops = inTheHend;
 
-        if(!string.IsNullOrEmpty(drops))
+        if (!string.IsNullOrEmpty(drops))
         {
             RemovePassiveEffect(drops);
-            Debug.Log($" '{drops}' 을(를) 내려놓음");
         }
-
         inTheHend = "";
         return drops;
     }
 
     private void ApplyPassiveEffect(string itemName)
-    {
+    {//패시브 아이템
         switch(itemName)
         {
             case"수상한 부적":
                 GameManager.hasCharm = true;
-                Debug.Log("부적이 널 지켜줬다요.");
                 break;
 
             case "낡은소화기":
-                GameManager.hasExtinguisher = false;
-                Debug.Log("소화기로 널 지켯다요.");
+                GameManager.hasExtinguisher = true;
                 break; 
         }
     }
@@ -50,22 +64,46 @@ public class Inventory : MonoBehaviour
         switch (itemName)
         {
             case "수상한 부적":
-                GameManager.hasCharm = false;
-                Debug.Log("부적이 효과가 사라졌다요.");
+                if (GameManager.hasCharm)
+                {
+                    GameManager.hasCharm = false;
+                    Debug.Log("부적이 부서졌다요...");
+                }
                 break;
 
             case "낡은소화기":
-                GameManager.hasExtinguisher = false;
-                Debug.Log("소화기를 다썻다요.");
+                if (GameManager.hasExtinguisher)
+                {
+                    GameManager.hasExtinguisher = false;
+                    Debug.Log("소화기를 다썻다요...");
+                }
                 break;
         }
     }
 
+
+    private void TryUseCurrentItem()
+    {
+        if (!hasItem) return;
+
+        string item = inTheHend;
+
+        if (item == "수상한 부적"||item == "낡은소화기")
+        {
+            Debug.Log("그건 지금못쓴다요.");
+            return;
+        }
+        Debug.Log(" 아이템을 사용한다요!");
+        itemMnanger?.UseItem(item);
+        ConsumeItem(item);
+    }
+
+    
     public void ConsumeItem(string itemName)
     {
         if (inTheHend == itemName)
         {
-            Debug.Log("아이템을 사용했다요.");
+            Debug.Log("아이템을 사용한다요.");
             DropItem();
         }
     }

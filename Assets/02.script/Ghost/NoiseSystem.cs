@@ -51,7 +51,7 @@ public class NoiseSystem : MonoBehaviour
 
         if (currentNoise >= maxNoise)
         {
-            Debug.Log("헌팅 타임..! 유령이 당신을 사냥하기 위해 쫒아옵니다.");
+            Debug.Log("헌팅 타임..! 유령이 쫒아온다요!");
             HuntTriggered?.Invoke();
         }
 

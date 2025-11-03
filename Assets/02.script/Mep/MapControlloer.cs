@@ -77,7 +77,7 @@ public class MapControlloer : MonoBehaviour
 
     bool TryDokingRoom(Door attachTo,GameObject roomPrefab)
     {
-        Debug.Log($"{roomPrefab.name}의 도킹을 시도합니다. ");
+        Debug.Log($"{roomPrefab.name}의 도킹을 시도한다요. ");
         // 최대 시도 횟수만큼 반복 및 반복할때마다 i의 수 1씩 증가.
         for (int i = 0; i < maxAttempts; i++) 
         {   //roomprefab안에 들어있는번호의 방을 생성
@@ -104,7 +104,7 @@ public class MapControlloer : MonoBehaviour
 
 
             // 다른 방의 콜라이더와 충돌하는지 검사
-            Debug.Log(" 다른방과 겹치는지 검사합니다.");
+            Debug.Log(" 다른방과 겹치는지 검사한다요.");
             BoxCollider2D roomCollider = newRoom.GetComponent<BoxCollider2D>();
             roomCollider.enabled = false;
             Vector2 boxSize = roomCollider.size;
@@ -117,7 +117,7 @@ public class MapControlloer : MonoBehaviour
 
             if (overlap == null)
             {
-                Debug.Log("콜라이더 충돌 없음 방 설치 완료");
+                Debug.Log("콜라이더 충돌 없다요 방설치됬다요");
                 //성공 했다면,
                 attachTo.ConnectDoor(newDoor);
                 

@@ -26,9 +26,17 @@ public class Ghost : MonoBehaviour
         if (Player == null) return;
 
         float currentSpeed = speed * GameManager.ghostSpeedMulitplier;
-
+        
         Vector2 dir = (Player.position - transform.position).normalized;
         rb.MovePosition(rb.position + dir* speed * Time.fixedDeltaTime);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+       if (collision.CompareTag("player"))
+        {
+            Debug.Log("¾Æ¾Ñ..ÀâÇô¹ö·È´Ù¿ä..");
+            GameManager.Instance.OnPlayerCaught();
+        }
     }
 
 }
