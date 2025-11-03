@@ -25,6 +25,8 @@ public class Ghost : MonoBehaviour
     {
         if (Player == null) return;
 
+        float currentSpeed = speed * GameManager.ghostSpeedMulitplier;
+
         Vector2 dir = (Player.position - transform.position).normalized;
         rb.MovePosition(rb.position + dir* speed * Time.fixedDeltaTime);
     }

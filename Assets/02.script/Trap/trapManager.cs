@@ -35,6 +35,14 @@ public class trapManager : MonoBehaviour
 
     public void activeateTrap(string trapName)
     {
+        if(GameManager.hasCharm && inventory != null)
+        {
+            Debug.Log("부적이 지켜줬다요!");
+            inventory.ConsumeItem("수상한 부적");
+            return;
+        }
+
+        
         Debug.Log("함정이다욧");
         switch(trapName)
         {
@@ -47,7 +55,7 @@ public class trapManager : MonoBehaviour
                 //즉사 함정(미구현)
                 break;
             case "무너지는 선반":
-                NoiseParty();
+                noiseSystem.AddNoise(100f);
                 //소음 함정(즉시 추격전)
                 break;
             case "열리지 않는 문":
@@ -82,14 +90,7 @@ public class trapManager : MonoBehaviour
         }
     }
 
-    private void NoiseParty()
-    {
-        if (noiseSystem != null)
-        {
-            noiseSystem.AddNoise(100f);
-        }
-    }
-    
+  
     private void stealItem()
     {
         if (inventory != null&& inventory.hasItem)
