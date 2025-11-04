@@ -138,6 +138,18 @@ public class InvestigatePoint : MonoBehaviour
         //나중에 특수아이템에 대한 메서드 작성.
     }
 
+    private void HandleSpecial()
+    {
+        // 유령 본체 감지
+        if (dataName == "유령의 본체")
+        {
+            Debug.Log("…차가운 기운이 느껴진다요. 여긴 뭔가 있다요.");
+            GhostBone.instance?.SetCurrentPoint(this);
+            return;
+        }
+
+        Debug.Log($"특수 아이템 발견: {dataName}");
+    }
     private void TryHide()
     {
         Debug.Log("빈공간에 숨는다요");

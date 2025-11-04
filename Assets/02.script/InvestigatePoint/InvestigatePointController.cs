@@ -18,7 +18,8 @@ public class InvestigatePointController : MonoBehaviour
         {
             SecretData();
         }
-        DispositionPoints(); 
+        DispositionPoints();
+        PlaceGhostBone();
     }
 
     public void collectAllPoints()
@@ -69,7 +70,7 @@ public class InvestigatePointController : MonoBehaviour
 
     private void DispositionPoints()
     {
-        //  0. 조사포인트 중복 제거 및 초기화
+        //   조사포인트 중복 제거 및 초기화
         allRooms = FindObjectsOfType<Room>().Distinct().ToList();
         allPoints = allRooms.SelectMany(r => r.points).Distinct().ToList();
 
@@ -88,7 +89,7 @@ public class InvestigatePointController : MonoBehaviour
             return;
         }
 
-        //  1. 단서 중 금고 비밀번호 / 약점 제외
+        //   단서 중 금고 비밀번호 / 약점 제외
         var provisoNums = data.FindAll(d => d.type.ToLower() == "provisonum")
                               .Where(d => !GameManager.SafePassword.Contains(d.name))
                               .ToList();
@@ -100,21 +101,21 @@ public class InvestigatePointController : MonoBehaviour
         provisos.AddRange(provisoNums);
         provisos.AddRange(provisoWeaks);
 
-        //  2. 기타 분류
+        //   기타 분류
         var items = data.FindAll(d => d.type.ToLower() == "item");
         var traps = data.FindAll(d => d.type.ToLower() == "trap");
         var special = data.FindAll(d => d.type.ToLower() == "special");
 
-        //  3. 전체 조사포인트 랜덤화
+        //   전체 조사포인트 랜덤화
         Shuffle(allPoints);
 
-        //  4. 타입별 데이터도 랜덤화
+        //   타입별 데이터도 랜덤화
         Shuffle(items);
         Shuffle(traps);
         Shuffle(provisos);
         Shuffle(special);
 
-        //  5. 전체 리스트 합치기 (하나의 큐처럼 처리)
+        //   전체 리스트 합치기 (하나의 큐처럼 처리)
         var allData = new List<(InvestigateType, ItemData)>();
         allData.AddRange(items.Select(i => (InvestigateType.item, i)));
         allData.AddRange(traps.Select(t => (InvestigateType.Trap, t)));
@@ -123,7 +124,7 @@ public class InvestigatePointController : MonoBehaviour
 
         Shuffle(allData);
 
-        //  6. 배치
+        //   배치
         int assignCount = Mathf.Min(allPoints.Count, allData.Count);
         for (int i = 0; i < assignCount; i++)
         {
@@ -131,11 +132,12 @@ public class InvestigatePointController : MonoBehaviour
             allPoints[i].dataName = allData[i].Item2.name;
         }
 
-        //  7. 로그 출력
+        //   로그 출력
         Debug.Log($" 조사포인트 배치 완료다요: 총 {assignCount}/{allPoints.Count} 사용했다요");
         Debug.Log($"(item={items.Count}, trap={traps.Count}, proviso={provisos.Count}, special={special.Count})");
     }
 
+    
     private void Shuffle<T>(List<T> list)
     {
         for (int i = 0; i< list.Count; i++)
@@ -162,5 +164,18 @@ public class InvestigatePointController : MonoBehaviour
         target.dataName = "";
 
         Debug.Log($"{target.name}단서를 지웠다요.");
+    }
+
+    private void PlaceGhostBone()
+    {
+        List<InvestigatePoint> emptyPoints = allPoints.Where(p=> p.type== InvestigateType.Empty).ToList();
+        if (emptyPoints.Count == 0) return;
+
+        InvestigatePoint target = emptyPoints[Random.Range(0, emptyPoints.Count)];
+        target.type = InvestigateType.special;
+        target.dataName = "유령의 본체";
+
+        Debug.Log("유령의 본체 생성됬다요");
+
     }
 }

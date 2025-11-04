@@ -63,20 +63,20 @@ public class ItemMnanger : MonoBehaviour
                 UseShamanBell();
                 break;
             case "십자가":
-
+                TryExorcism(itemName);
                 break;
             case "말뚝":
-
+                TryExorcism(itemName);
                 break;
             case "기름통":
-
+                TryExorcism(itemName);
                 break;
-            
+
 
 
         }
     }
-   
+
     private void UseCharm()
     {
         // 수상한 부적 = 다음 함정 1회 무효화.
@@ -118,7 +118,7 @@ public class ItemMnanger : MonoBehaviour
     {
         List<InvestigatePoint> allPoints = FindObjectsOfType<InvestigatePoint>().ToList();
 
-        foreach ( var p in allPoints)
+        foreach (var p in allPoints)
         {
             if (p.type == InvestigateType.Trap)
             {
@@ -128,7 +128,7 @@ public class ItemMnanger : MonoBehaviour
 
         yield return new WaitForSeconds(revealDuration);
 
-        foreach ( var p in allPoints)
+        foreach (var p in allPoints)
         {
             if (p.type == InvestigateType.Trap)
                 p.SetVisible(false);
@@ -140,7 +140,7 @@ public class ItemMnanger : MonoBehaviour
     {
         if (GameManager.SafePassword != null && GameManager.SafePassword.Count > 0)
         {
-            string hint = GameManager.SafePassword[Random.Range(0,GameManager.SafePassword.Count)];
+            string hint = GameManager.SafePassword[Random.Range(0, GameManager.SafePassword.Count)];
             Debug.Log($"청진기 사용 - 금고 비밀번호 힌트: {hint}");
         }
     }
@@ -161,5 +161,30 @@ public class ItemMnanger : MonoBehaviour
         GameManager.ghostSpeedMulitplier = 1f;
     }
 
+    private void TryExorcism(string itemName)
+    {
+       
+        if (GhostBone.instance == null)
+        {
+            Debug.Log("유령의 본체는 여기 없다요.");
+            return;
+        }
 
+        var player = FindObjectOfType<PlayerController>();
+        if (player == null) return;
+
+        float dist = Vector2.Distance(player.transform.position, GhostBone.instance.transform.position);
+        if (dist <= 2.0f)
+        {
+            bool success = GhostBone.instance.TryExorcise(itemName);
+            if (success)
+            {
+                Inventory.DropItem();
+            }
+            else
+            {
+                Debug.Log("이건 유령근처에서만 쓸 수 있다요");
+            }
+        }
+    }
 }

@@ -148,4 +148,22 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void GameClear()
+    {
+        if (isGameOver) return;
+        isPlaying = false;
+        isGameOver = true;
+
+        Debug.Log("유령을 격퇴했다요! 게임 클리어다요!");
+
+        StartCoroutine(EndGameRoutine());
+    }
+
+    private IEnumerator EndGameRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+    }
 }
