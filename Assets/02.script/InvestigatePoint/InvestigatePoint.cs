@@ -14,7 +14,7 @@ public enum InvestigateType
     special //격퇴아이템,금고,바닥문
 
 }
-[RequireComponent(typeof(SpriteRenderer),typeof(Collider2D))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Collider2D))]
 public class InvestigatePoint : MonoBehaviour
 {
     public InvestigateType type;
@@ -41,7 +41,7 @@ public class InvestigatePoint : MonoBehaviour
     private void Update()
     {
         Color c = sprite.color;
-        c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime*fadeSpeed);
+        c.a = Mathf.Lerp(c.a, targetAlpha, Time.deltaTime * fadeSpeed);
         sprite.color = c;
     }
 
@@ -52,7 +52,7 @@ public class InvestigatePoint : MonoBehaviour
 
     public void SetVisibleByWave(float distance, float waveRadius)
     {
-        if(distance <= waveRadius)
+        if (distance <= waveRadius)
         {
             float t = Mathf.InverseLerp(waveRadius - 1F, waveRadius, distance);
             targetAlpha = Mathf.Lerp(visibleAlpha, hiddenAlpha, t);
@@ -86,7 +86,7 @@ public class InvestigatePoint : MonoBehaviour
                 HandleItemInteraction(inventory);
                 break;
             case InvestigateType.Trap:
-                TrapTrigger(); 
+                TrapTrigger();
                 break;
             case InvestigateType.proviso:
                 catchProviso();
@@ -129,32 +129,62 @@ public class InvestigatePoint : MonoBehaviour
     private void catchProviso()
     {
         Debug.Log($"단서 발견({dataName}");
-        //나중에 단서에 대한 메서드 작성.
+        UiManager.instance?.ShowDialog($"단서 발견: {dataName}");
+        Sprite s = Resources.Load<Sprite>($"Provisos/{dataName}");
+        if (s != null)
+        {
+            UiManager.instance?.ShowProvisoImage(s);
+        }
+        else
+        {
+            // 이미지가 없으면 힌트 팝업
+            UiManager.instance?.ShowDialog($"단서: {dataName}");
+        }
     }
 
     private void FindSpecial()
     {
-        Debug.Log($"특수 아이템 발견:{dataName} ");
-        //나중에 특수아이템에 대한 메서드 작성.
-    }
 
-    private void HandleSpecial()
-    {
-        // 유령 본체 감지
-        if (dataName == "유령의 본체")
+        if (dataName == "금고")
         {
-            Debug.Log("…차가운 기운이 느껴진다요. 여긴 뭔가 있다요.");
+            SafeLockSystem.instance.OpenSafeUI(this);
+            return;
+        }
+        else if (dataName == "바닥문")
+        {
+            TryOpenEscapeDoor();
+            return;
+        }
+        else if (dataName == "유령의 본체")
+        {
+            UiManager.instance?.ShowDialog("…차가운 기운이 느껴진다요. 여긴 뭔가 있다요.");
             GhostBone.instance?.SetCurrentPoint(this);
             return;
         }
-
-        Debug.Log($"특수 아이템 발견: {dataName}");
+       
     }
+
+    
     private void TryHide()
     {
         Debug.Log("빈공간에 숨는다요");
         //나중에 빈곤간에 숨는 메서드 작성.
     }
+
+    private void TryOpenEscapeDoor()
+    {
+        var inventory = FindObjectOfType<Inventory>();
+        if (inventory == null && inventory.inTheHend == "열쇠")
+        {
+            inventory.DropItem();
+            GameManager.Instance.OnGameClear();
+        }
+        else
+        {
+            UiManager.instance?.ShowDialog("열쇠가 필요해..");
+        }
+    }
+
 }
 
 

@@ -10,7 +10,7 @@ public class GhostBone : MonoBehaviour
 
     [SerializeField] private float moveInterval = 60f;
 
-    private List<InvestigatePoint> emptyPoints = new List<InvestigatePoint>();
+    //private List<InvestigatePoint> emptyPoints = new List<InvestigatePoint>();
     private void Awake()
     {
         if (instance == null&& instance !=this )
@@ -18,7 +18,8 @@ public class GhostBone : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        instance = this; 
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {

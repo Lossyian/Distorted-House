@@ -130,6 +130,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        UiManager.instance?.ShowGameOver();
+
         GameOver();
     }
 
@@ -165,5 +167,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
+    }
+
+    public void OnGameClear()
+    {
+        Debug.Log("Å»Ãâ¼º°ø!");
+        UiManager.instance?.ShowGameClear();
     }
 }

@@ -23,12 +23,12 @@ public class Inventory : MonoBehaviour
     {
         if (hasItem)
         {
-            Debug.Log("들고있는 아이템과 바꾼다요!");
+            UiManager.instance?.ShowDialog("들고있는 아이템과 바꾸었다.");
             DropItem();
 
         }
         inTheHend = itemName;
-        Debug.Log($" 인벤토리에 '{itemName}' 추가됨");
+        UiManager.instance?.ShowDialog($"손에 '{itemName}'을(를) 들었다.");
 
         ApplyPassiveEffect(itemName);
     }
@@ -90,10 +90,10 @@ public class Inventory : MonoBehaviour
 
         if (item == "수상한 부적"||item == "낡은소화기")
         {
-            Debug.Log("그건 지금못쓴다요.");
+            UiManager.instance?.ShowDialog("사용할 수 없어.");
             return;
         }
-        Debug.Log(" 아이템을 사용한다요!");
+        UiManager.instance?.ShowDialog(" 아이템을 사용했다.");
         itemMnanger?.UseItem(item);
         ConsumeItem(item);
     }
@@ -103,7 +103,7 @@ public class Inventory : MonoBehaviour
     {
         if (inTheHend == itemName)
         {
-            Debug.Log("아이템을 사용한다요.");
+            UiManager.instance?.ShowDialog("아이템을 사용했다.");
             DropItem();
         }
     }

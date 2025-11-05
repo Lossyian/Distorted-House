@@ -96,6 +96,7 @@ public class ItemMnanger : MonoBehaviour
             float reduce = 20f;
             noiseSystem.currentNoise = Mathf.Max(0, noiseSystem.currentNoise - reduce);
             Debug.Log($" 팔각패 쓴다요 - 소음 {reduce} 감소! 현재 소음: {noiseSystem.currentNoise}");
+            UiManager.instance?.ShowDialog(" 팔각패를 사용했다. 주변이 조용해졌다");
         }
 
     }
@@ -106,11 +107,11 @@ public class ItemMnanger : MonoBehaviour
         if (currentRoom != null) return;
 
         bool hasTrap = currentRoom.points.Exists(p => p.type == InvestigateType.Trap);
-        Debug.Log(hasTrap ? "방에 함정이있다요!" : "안전한 방이다요.");
+        UiManager.instance?.ShowDialog(hasTrap ? "방에 함정이있는것 같다" : "함정은 없다. 안전한 방인듯 하다");
     }
     private void UseOuijaBoard()
     {
-        Debug.Log(" 모든 함정을 표시한다요.");
+        UiManager.instance?.ShowDialog(" 위자보드에 물었다. 함정의 위치를");
         StartCoroutine(RevealTrapsTemporarily());
     }
 
@@ -141,13 +142,13 @@ public class ItemMnanger : MonoBehaviour
         if (GameManager.SafePassword != null && GameManager.SafePassword.Count > 0)
         {
             string hint = GameManager.SafePassword[Random.Range(0, GameManager.SafePassword.Count)];
-            Debug.Log($"청진기 사용 - 금고 비밀번호 힌트: {hint}");
+            UiManager.instance?.ShowDialog($"청진기를 사용했다. 금고 비밀번호 힌트: {hint}");
         }
     }
 
     private void UseShamanBell()
     {
-        Debug.Log("무당의방울쓴다요");
+        UiManager.instance?.ShowDialog("무당의방울 사용했다.");
         StartCoroutine(SlowGhostDuringHunt());
     }
     private IEnumerator SlowGhostDuringHunt()
@@ -166,7 +167,7 @@ public class ItemMnanger : MonoBehaviour
        
         if (GhostBone.instance == null)
         {
-            Debug.Log("유령의 본체는 여기 없다요.");
+            UiManager.instance?.ShowDialog("유령의 본체는 여기 없다.");
             return;
         }
 
@@ -179,11 +180,13 @@ public class ItemMnanger : MonoBehaviour
             bool success = GhostBone.instance.TryExorcise(itemName);
             if (success)
             {
-                Inventory.DropItem();
+                Inventory inv = FindObjectOfType<Inventory>();
+                if (inv != null)
+                    inv.ConsumeItem(itemName);
             }
             else
             {
-                Debug.Log("이건 유령근처에서만 쓸 수 있다요");
+                UiManager.instance?.ShowDialog("유령의 본체 근처에서만 쓸 수 있을것같다.");
             }
         }
     }
