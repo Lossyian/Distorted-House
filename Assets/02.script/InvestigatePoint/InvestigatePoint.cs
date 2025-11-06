@@ -29,6 +29,7 @@ public class InvestigatePoint : MonoBehaviour
     [SerializeField] float fadeSpeed = 5f;
 
     private float targetAlpha;
+    private bool hideUsed = false;
 
     private void Awake()
     {
@@ -129,7 +130,7 @@ public class InvestigatePoint : MonoBehaviour
     private void catchProviso()
     {
         Debug.Log($"단서 발견({dataName}");
-        UiManager.instance?.ShowDialog($"단서 발견: {dataName}");
+        UiManager.instance?.ShowDialog($"무언가 찾았다.: {dataName}");
         Sprite s = Resources.Load<Sprite>($"Provisos/{dataName}");
         if (s != null)
         {
@@ -157,34 +158,71 @@ public class InvestigatePoint : MonoBehaviour
         }
         else if (dataName == "유령의 본체")
         {
-            UiManager.instance?.ShowDialog("…차가운 기운이 느껴진다요. 여긴 뭔가 있다요.");
+            UiManager.instance?.ShowDialog("…차가운 기운이 느껴진다.. 여긴 뭔가 있는것같다.");
             GhostBone.instance?.SetCurrentPoint(this);
             return;
         }
-       
+
     }
 
-    
-    private void TryHide()
-    {
-        Debug.Log("빈공간에 숨는다요");
-        //나중에 빈곤간에 숨는 메서드 작성.
-    }
 
     private void TryOpenEscapeDoor()
     {
         var inventory = FindObjectOfType<Inventory>();
-        if (inventory == null && inventory.inTheHend == "열쇠")
+        if (inventory != null && inventory.inTheHend == "열쇠")
         {
             inventory.DropItem();
+            UiManager.instance?.ShowDialog("문이 열렸다. 이 지긋지긋한 집에서 빠져나가자.");
             GameManager.Instance.OnGameClear();
+            return;
         }
-        else
-        {
-            UiManager.instance?.ShowDialog("열쇠가 필요해..");
-        }
+
+        UiManager.instance?.ShowDialog("열쇠가 필요해..");
+
     }
 
+    private void TryHide()
+    {
+        if (!GameManager.Instance.isHunting)
+        {
+            UiManager.instance?.ShowDialog("여차하면 여기 숨을 수 있겠다.");
+            Debug.Log("헌팅이 아니어서 지금은 숨을 수 없다요.");
+            return;
+        }
+        if (hideUsed)
+        {
+            UiManager.instance?.ShowDialog("거긴 한번 숨었던곳이야. 여긴 들킬지도 몰라.");
+            return;
+        }
+
+        if (!NoiseSystem.Instance.isHunting)
+        {
+            return;
+        }
+
+        PlayerController player = FindObjectOfType<PlayerController>();
+        if (player != null)
+        {
+            StartCoroutine(player.HideInPoint(this));
+        }
+    }
+   
+    public void MarkAsUsedHideSpot()
+    {
+        hideUsed = true;
+    }
+
+    public void ResetHideSpots()
+    {
+        foreach (var point in FindObjectsOfType<InvestigatePoint>())
+        {
+            point.ResetHide();
+        }
+    }
+    public void ResetHide()
+    {
+        hideUsed = false;
+    }
 }
 
 

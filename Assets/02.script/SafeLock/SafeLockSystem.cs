@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
-using UnityEditor;
+
 using UnityEngine;
 
 public class SafeLockSystem : MonoBehaviour
@@ -17,12 +16,31 @@ public class SafeLockSystem : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this) Destroy(gameObject);
-        else instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     public void OpenSafeUI(InvestigatePoint safePoint)
     {
         this.safePoint = safePoint;
+
+        if (UiManager.instance == null)
+        {
+            Debug.LogWarning("[SafeLockSystem] UiManager instance가 아직 없음. 0.1초 후 재시도.");
+            StartCoroutine(DelayedOpen(safePoint));
+            return;
+        }
+
+        UiManager.instance.openSafeUi(safePoint);
+    }
+    private IEnumerator DelayedOpen(InvestigatePoint safePoint)
+    {
+        yield return new WaitForSeconds(0.1f);  
         UiManager.instance?.openSafeUi(safePoint);
     }
 
@@ -41,7 +59,7 @@ public class SafeLockSystem : MonoBehaviour
     {
         if(isUnlocked) return;
 
-        if(enteredNumbers.Count >=3)
+        if(enteredNumbers.Count < 3)
         {
             UiManager.instance?.ShowDialog("3자리를 입력해야 한다");
             return;
@@ -51,7 +69,7 @@ public class SafeLockSystem : MonoBehaviour
         var correctSet = new HashSet<string>(correctNumbers);
         var enteredSet = new HashSet<string>(enteredNumbers);
 
-        bool allMatched = correctSet.IsSubsetOf(enteredSet);
+        bool allMatched = correctSet.SetEquals(enteredSet);
 
         if (allMatched)
         {

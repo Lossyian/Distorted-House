@@ -5,14 +5,14 @@ using UnityEngine;
 public class NoiseSystem : MonoBehaviour
 {
 
-    public static NoiseSystem Instance { get; private set; }
+    public static NoiseSystem Instance { get; private set; } 
 
     [Header("소음 설정")]
     [Range(0f, 100f)] public float currentNoise = 0f;
     [SerializeField] float decaySpeed = 0f;
     [SerializeField] float maxNoise = 100f; //헌팅타임 발동 소음 기준치
 
-    public bool isHunting => currentNoise >= maxNoise;
+    public bool isHunting { get; private set; } = false;
 
     public delegate void OnNoiseChange(float valuie);
     public event OnNoiseChange NoiseChanged;
@@ -34,15 +34,16 @@ public class NoiseSystem : MonoBehaviour
         {
             currentNoise = Mathf.Max(0, currentNoise - decaySpeed *  Time.deltaTime);
 
-            
-
             NoiseChanged?.Invoke(currentNoise);
         }
     }
 
     public void AddNoise(float amount)
     {
-        if (isHunting) return;
+        if (isHunting)
+        {
+            return;
+        }
 
         currentNoise = Mathf.Clamp(currentNoise + amount, 0, maxNoise);
         NoiseChanged?.Invoke(currentNoise);
@@ -52,8 +53,17 @@ public class NoiseSystem : MonoBehaviour
         if (currentNoise >= maxNoise)
         {
             Debug.Log("헌팅 타임..! 유령이 쫒아온다요!");
+            isHunting = true;
             HuntTriggered?.Invoke();
         }
 
     }
+    public void EndHunt()
+    {
+        isHunting = false;
+        currentNoise = 0;
+        NoiseChanged?.Invoke(currentNoise);
+        Debug.Log("헌팅 종료 유령이 사라졌다요!");
+    }
+
 }

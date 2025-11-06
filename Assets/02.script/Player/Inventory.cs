@@ -93,7 +93,7 @@ public class Inventory : MonoBehaviour
             UiManager.instance?.ShowDialog("사용할 수 없어.");
             return;
         }
-        UiManager.instance?.ShowDialog(" 아이템을 사용했다.");
+        
         itemMnanger?.UseItem(item);
         ConsumeItem(item);
     }
@@ -103,7 +103,7 @@ public class Inventory : MonoBehaviour
     {
         if (inTheHend == itemName)
         {
-            UiManager.instance?.ShowDialog("아이템을 사용했다.");
+            UiManager.instance?.ShowDialog("더는 못쓸것같다.");
             DropItem();
         }
     }

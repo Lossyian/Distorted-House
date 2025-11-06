@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Room : MonoBehaviour
 {
     public List<Door> doors;
@@ -41,6 +42,18 @@ public class Room : MonoBehaviour
             col.enabled = false;
             Debug.Log("문이 잠겼다요!");
         }
+    }
+    private void Reset()
+    {
+        // 자동으로 트리거 설정
+        var col = GetComponent<Collider2D>();
+        col.isTrigger = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(transform.position, GetComponent<Collider2D>().bounds.size);
     }
 
 

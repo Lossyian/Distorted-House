@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
@@ -23,22 +24,33 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float scanSpeed = 10f;
     [SerializeField] float scanCooldown = 1.5f;
 
+    public bool isHiding { get;  set; } = false;
+    private SpriteRenderer sprite;
+
     private float currentScanRadius = 0f;
     private float nextScanTime = 0f;
     private bool isScanning = false;
 
     private ScanVisualizer Visualizer;
+    public Room currentRoom;
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         Visualizer = GetComponentInChildren<ScanVisualizer>();
+        sprite = GetComponent<SpriteRenderer>();
     }
     
 
     
     void Update()
     {
+        if (isHiding)
+        {
+            rigid.velocity = Vector2.zero; 
+            return;
+        }
+
         hor = Input.GetAxis("Horizontal");
         ver = Input.GetAxis("Vertical");
 
@@ -63,6 +75,11 @@ public class PlayerController : MonoBehaviour
     
     void PlayerMove()
     {
+        if (isHiding)
+        {
+            rigid.velocity = Vector2.zero;
+            return;
+        }
         Vector2 Velo = new Vector2(hor , ver).normalized;
         rigid.velocity = Vector2.Lerp(rigid.velocity, Velo* moveSpeed, Time.deltaTime * moveSpeed);
     }
@@ -133,7 +150,38 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public IEnumerator HideInPoint(InvestigatePoint point)
+    {
+        if (!NoiseSystem.Instance.isHunting)
+        {
+            UiManager.instance?.ShowDialog("숨을만한 곳이다 여차하면 여기 숨으면...");
+            yield break;
+        }
 
+        if (isHiding)
+        {
+            UiManager.instance?.ShowDialog("이미 숨어있다.");
+            yield break;
+        }
+
+        isHiding = true;
+        sprite.enabled = false;
+        rigid.velocity = Vector2.zero;
+
+        UiManager.instance.ShowDialog("숨을만한곳이다. 여기에숨자!");
+        GhostManager.Instance?.SetGhostToWanderMode(true);
+
+        yield return new WaitForSeconds(5f);
+
+        sprite.enabled = true;
+        isHiding = false;
+        UiManager.instance?.ShowDialog("여기 더 숨을수 없겠어..!");
+
+        GhostManager.Instance?.SetGhostToWanderMode(false);
+        point.MarkAsUsedHideSpot();
+    }
+
+    
     private void OnDrawGizmosSelected()
     {
         if (interactiveHart != null)
@@ -142,5 +190,25 @@ public class PlayerController : MonoBehaviour
             Gizmos.DrawWireSphere(interactiveHart.position, interactRange);
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Room room = other.GetComponent<Room>();
+        if (room != null)
+        {
+            currentRoom = room;
+            Debug.Log($"{room.name} 방에 들어왔다요");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        Room room = other.GetComponent<Room>();
+        if (room != null && currentRoom == room)
+        {
+            Debug.Log($" {room.name} 방에서 나갔다요");
+            currentRoom = null;
+        }
     }
 }

@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [Header("유령및 탈출 관련")]
     public static float ghostSpeedMulitplier = 1.0f;
     public static string GhostWeakness = "";
+    public static string FullWeaknessName = "";
     public static List<string> SafePassword = new List<string>();
     
 
@@ -32,17 +33,21 @@ public class GameManager : MonoBehaviour
     public static bool hasCharm = false; //부적 효과
     public static bool hasExtinguisher = false; //소화기 효과.
 
-    
 
-
+    [SerializeField] public PlayerController playerController;
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad (gameObject);
+            DontDestroyOnLoad(gameObject);
         }
-        else Destroy (gameObject);
+        else 
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     private void Start()
@@ -107,6 +112,8 @@ public class GameManager : MonoBehaviour
     public void OnHuntEnd()
     {
         isHunting = false;
+        foreach (var p in FindObjectsOfType<InvestigatePoint>())
+            p.ResetHide();
     }
 
 
@@ -148,7 +155,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator RestartGame()
     {
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(mainMenuSceneName);
     }
 
     public void GameClear()
@@ -165,7 +173,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndGameRoutine()
     {
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(mainMenuSceneName);
 
     }
 
@@ -174,4 +183,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("탈출성공!");
         UiManager.instance?.ShowGameClear();
     }
+
+
 }

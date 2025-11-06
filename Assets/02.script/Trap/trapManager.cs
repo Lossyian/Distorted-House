@@ -86,8 +86,9 @@ public class trapManager : MonoBehaviour
         if(player != null)
         {
             Debug.Log("죽었다요..");
+            UiManager.instance?.ShowDialog("아..잡혀버렸어..");
             GameManager.Instance.OnPlayerCaught();
-            //나중에 게임매니저에서 처리.
+            
         }
     }
 
@@ -96,6 +97,7 @@ public class trapManager : MonoBehaviour
     {
         if (inventory != null&& inventory.hasItem)
         {
+            UiManager.instance?.ShowDialog("아이템을 빼앗겼다...");
             string lostItem = inventory.DropItem();
         }
         else
@@ -107,6 +109,7 @@ public class trapManager : MonoBehaviour
     {
         if (investigatePointController!=null)
         {
+            UiManager.instance?.ShowDialog("중요한 무언가가 사라진 기분이야..");
             investigatePointController.removeRandom();
         }
     }
@@ -116,6 +119,7 @@ public class trapManager : MonoBehaviour
         Room currentRoom = player.GetComponentInParent<Room>();
         if ( currentRoom != null)
         {
+            UiManager.instance?.ShowDialog("문이 잠기는 소리가 났어..!");
             currentRoom.LockrandomDoor();
         }
     }

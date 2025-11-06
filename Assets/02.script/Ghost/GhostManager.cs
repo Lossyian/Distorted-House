@@ -14,6 +14,9 @@ public class GhostManager : MonoBehaviour
     private GameObject currentGhost;
     private Coroutine huntRoutine;
 
+    private bool isWandering = false;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -30,6 +33,10 @@ public class GhostManager : MonoBehaviour
         if (NoiseSystem.Instance != null)
         {
             NoiseSystem.Instance.HuntTriggered += OnHuntStart;
+        }
+        foreach (var g in FindObjectsOfType<GhostChase>())
+        {
+            Destroy(g.gameObject);
         }
     }
 
@@ -51,7 +58,12 @@ public class GhostManager : MonoBehaviour
 
     public void StartHunt()
     {
-        if (huntRoutine != null)
+        if (currentGhost != null)
+        {
+            Debug.Log("이미 유령있다요");
+            return;
+        }
+            if (huntRoutine != null)
         {
             StopCoroutine(huntRoutine);
         }
@@ -68,15 +80,31 @@ public class GhostManager : MonoBehaviour
     public void ForceEndHunt()
     {
         if (currentGhost != null)
+        {
             Destroy(currentGhost);
-
+            Debug.Log("유령 제거");
+        }
+        currentGhost = null;
+        foreach (var ghost in FindObjectsOfType<GhostChase>())
+        {
+            Destroy(ghost.gameObject);
+        }
         currentGhost = null;
 
-        if (GameManager.Instance != null)
-            GameManager.Instance.OnHuntEnd();
 
-        if (NoiseSystem.Instance != null)
-            NoiseSystem.Instance.currentNoise = 0;
+        GameManager.Instance?.OnHuntEnd();
+        NoiseSystem.Instance?.EndHunt();
     }
-   
+    public void SetGhostToWanderMode(bool wander)
+    {
+        if (currentGhost == null) return;
+        var ai = currentGhost.GetComponent<GhostChase>(); // 유령 이동 담당 스크립트
+        if (ai != null)
+            ai.SetWanderMode(wander);
+
+        isWandering = wander;
+        Debug.Log($" 유령 상태 변경: {(wander ? "순찰" : "추적")}");
+    }
+
+
 }

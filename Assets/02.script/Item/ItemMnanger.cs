@@ -22,11 +22,11 @@ public class ItemMnanger : MonoBehaviour
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     void Start()
     {
@@ -39,9 +39,12 @@ public class ItemMnanger : MonoBehaviour
 
     public void UseItem(string itemName)
     {
-        switch (itemName)
+        string key = itemName.Trim().Replace(" ", "");
+        Debug.Log($"[UseItem] 호출됨 / 아이템 이름 = '{key}'");
+
+        switch (key)
         {
-            case "수상한 부적":
+            case "수상한부적":
                 UseCharm();
                 break;
             case "낡은소화기":
@@ -50,7 +53,7 @@ public class ItemMnanger : MonoBehaviour
             case "팔각패":
                 UseOctagontally();
                 break;
-            case "다우징 막대":
+            case "다우징막대":
                 UseDowsingRod();
                 break;
             case "위자보드":
@@ -59,7 +62,7 @@ public class ItemMnanger : MonoBehaviour
             case "청진기":
                 UseStethoscope();
                 break;
-            case "무당의 방울":
+            case "무당의방울":
                 UseShamanBell();
                 break;
             case "십자가":
@@ -71,6 +74,7 @@ public class ItemMnanger : MonoBehaviour
             case "기름통":
                 TryExorcism(itemName);
                 break;
+            
 
 
 
@@ -91,6 +95,7 @@ public class ItemMnanger : MonoBehaviour
 
     private void UseOctagontally()
     {
+        Debug.Log("팔각패쓴다욧!");
         if (noiseSystem != null)
         {
             float reduce = 20f;
@@ -103,20 +108,36 @@ public class ItemMnanger : MonoBehaviour
 
     private void UseDowsingRod()
     {
-        Room currentRoom = player.GetComponentInParent<Room>();
-        if (currentRoom != null) return;
+        Debug.Log("다우징 쓴다요!");
+        Room currentRoom = player.currentRoom;
+        if (currentRoom == null)
+        {
+            Debug.Log("방이 아닌데유?");
+            return;
+        }
 
         bool hasTrap = currentRoom.points.Exists(p => p.type == InvestigateType.Trap);
-        UiManager.instance?.ShowDialog(hasTrap ? "방에 함정이있는것 같다" : "함정은 없다. 안전한 방인듯 하다");
+        if (hasTrap)
+        {
+            UiManager.instance?.ShowDialog("다우징 막대가 흔들린다... 이 방엔 함정이 있다!");
+            Debug.Log($"[Dowsing] 방 '{currentRoom.name}' 에 함정 존재!");
+        }
+        else
+        {
+            UiManager.instance?.ShowDialog("조용하다... 함정은 없는 것 같다.");
+            Debug.Log($"[Dowsing] 방 '{currentRoom.name}' 에 함정 없음.");
+        }
     }
     private void UseOuijaBoard()
     {
+        Debug.Log("위자보드쓴다욧!");
         UiManager.instance?.ShowDialog(" 위자보드에 물었다. 함정의 위치를");
         StartCoroutine(RevealTrapsTemporarily());
     }
 
     private IEnumerator RevealTrapsTemporarily()
     {
+        Debug.Log("지징 지징");
         List<InvestigatePoint> allPoints = FindObjectsOfType<InvestigatePoint>().ToList();
 
         foreach (var p in allPoints)
@@ -139,24 +160,29 @@ public class ItemMnanger : MonoBehaviour
 
     private void UseStethoscope()
     {
+        Debug.Log("청진기 쓴다욧!");
         if (GameManager.SafePassword != null && GameManager.SafePassword.Count > 0)
         {
             string hint = GameManager.SafePassword[Random.Range(0, GameManager.SafePassword.Count)];
             UiManager.instance?.ShowDialog($"청진기를 사용했다. 금고 비밀번호 힌트: {hint}");
+            Debug.Log($"청진기를 사용했다. 금고 비밀번호 힌트: {hint}");
+
         }
     }
 
     private void UseShamanBell()
     {
+        Debug.Log("무당방울 쓴다욧!");
         UiManager.instance?.ShowDialog("무당의방울 사용했다.");
         StartCoroutine(SlowGhostDuringHunt());
     }
     private IEnumerator SlowGhostDuringHunt()
     {
         //헌팅 강제 시작
+        Debug.Log("딸랑딸랑!");
         noiseSystem.AddNoise(100f);
+        GameManager.ghostSpeedMulitplier = 0.4f;
 
-        GameManager.ghostSpeedMulitplier = 0.5f;
         yield return new WaitUntil(() => !noiseSystem.isHunting);
 
         GameManager.ghostSpeedMulitplier = 1f;
@@ -164,10 +190,10 @@ public class ItemMnanger : MonoBehaviour
 
     private void TryExorcism(string itemName)
     {
-       
         if (GhostBone.instance == null)
         {
             UiManager.instance?.ShowDialog("유령의 본체는 여기 없다.");
+            Debug.Log("유령의 본체는 여기 없다요.");
             return;
         }
 
@@ -175,19 +201,32 @@ public class ItemMnanger : MonoBehaviour
         if (player == null) return;
 
         float dist = Vector2.Distance(player.transform.position, GhostBone.instance.transform.position);
-        if (dist <= 2.0f)
+        if (dist >= 2.0f)
         {
-            bool success = GhostBone.instance.TryExorcise(itemName);
-            if (success)
-            {
-                Inventory inv = FindObjectOfType<Inventory>();
-                if (inv != null)
-                    inv.ConsumeItem(itemName);
-            }
-            else
-            {
-                UiManager.instance?.ShowDialog("유령의 본체 근처에서만 쓸 수 있을것같다.");
-            }
+            UiManager.instance?.ShowDialog("유령의 본체 근처에서만 쓸 수 있을것같다.");
+            Debug.Log("너무 멀다요. 유령이 반응하지 않는다요.");
+            return;
+        }
+        bool success = GhostBone.instance.TryExorcise(itemName);
+        Inventory inv = FindObjectOfType<Inventory>();
+
+        if (success)
+        {
+            UiManager.instance?.ShowDialog("퇴마 성공!");
+            Debug.Log("퇴마 성공!");
+            inv?.ConsumeItem(itemName);
+        }
+        else
+        {
+            UiManager.instance?.ShowDialog("틀렸다요.. 유령이 화가 났다요!!!");
+            Debug.Log("틀렸다요.. 유령이 화가 났다요!!!");
+            // 여긴 아이템 소모 안 함
         }
     }
 }
+
+
+
+            
+
+     
